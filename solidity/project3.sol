@@ -1,8 +1,27 @@
 pragma solidity ^0.7.4;
 
+/*
+{
+    "id":1,
+    "date":"2021-01-02",
+    "assets": [
+        {
+            "asset_name":"TSLA",
+            "allocation":100
+        },
+        {
+            "asset_name":"AAPL",
+            "allocation":50
+        }
+    ]
+}
+*/
+
 contract project3 {
     struct Portfolio {
-        string [2][] assets;            
+        string [2][] assets; 
+        string date;
+        uint id;          
     }
     
     mapping(uint => Portfolio) public portfolios;
