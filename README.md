@@ -1,4 +1,4 @@
-# Project 3
+# Smart Contract using Ether BlockChain for Portfolio Recommendations
 *We're going to setup a smart contract on Ethereum blockchain and use this contract to give away portfolio recommendations to our potential customers. This particular contract is made for Customers who wants to transfer ethereum instead of USD for portfolio recommendations.*
 
 
