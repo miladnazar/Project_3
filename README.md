@@ -3,6 +3,7 @@
 
 <p align="center">
 ![alt text](Images/smart_contract_6.png)
+  </p>
 # Smart Contract Solidity
 
 # Python Project 2 Files
