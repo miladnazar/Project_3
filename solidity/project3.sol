@@ -19,11 +19,18 @@ pragma solidity ^0.7.4;
 
 contract project3 {
     struct Portfolio {
-        string [2][] assets; 
+        string [2][] industries; 
         string date;
         uint id;          
     }
     
+    struct CustomerMetrics {
+        uint risk;
+        long unitial_investment;
+        string[] industries_preferences;
+        uint investing_duration;
+        
+    }
     mapping(uint => Portfolio) public portfolios;
     
     constructor() public {
@@ -31,9 +38,14 @@ contract project3 {
     }
 
     // how to parse JSON object, and where?
-    function buildPortfolio(uint id) public returns(bool) {
-        Portfolio tmp=Portfolio();
-        portfolios[id]=tmp;
+    function buildPortfolio(uint id, CustomerMetrics metrics, string[] portfolios_info) public returns(Portfolio) {
+        Portfolio portfolio=Portfolio();
+        risk = metrics.risk; 
+        industries = metrics.industries_preferences;
+        performanceData = filterIndustires(performanceData, industries);
+        performanceData = filterRisk(performanceData, risk);
+        portfolio = builFromSharpeRatio(performanceData);
+        portfolios[id]=portfolio;
         return true;
     }
     
