@@ -31,9 +31,24 @@ contract project3 {
         uint investing_duration;
         
     }
+    
+    
+        
+    struct PerformanceData { 
+        fixed annualized_return;
+        fixed sharpe_ratio;
+        fixed volatility;
+        
+    
+        
+    }
+        
+    
     mapping(uint => Portfolio) public portfolios;
     
-    constructor() public {
+    
+    
+    constructor(string[] industry_return_data, string[] industry_volatility_data, string[] industry_sharperatio_data) public {
 
     }
 
@@ -44,10 +59,25 @@ contract project3 {
         industries = metrics.industries_preferences;
         performanceData = filterIndustires(performanceData, industries);
         performanceData = filterRisk(performanceData, risk);
-        portfolio = builFromSharpeRatio(performanceData);
+        portfolio = buildFromSharpeRatio(performanceData);
         portfolios[id]=portfolio;
         return true;
     }
+    
+    function filterIndustires(PerformanceData performanceData, string[] industries) public returns(PerformanceData) {
+        
+        
+    }   
+    function filterRisk(PerformanceData performanceData, string[] risk) public returns(PerformanceData) {
+        
+    }
+    
+    
+    function buildFromSharpeRatio(PerformanceData performanceData, uint numIndustries) public returns(Portfolio){
+        
+    }
+   
+      
     
     function() external payable {
         // fallback function
