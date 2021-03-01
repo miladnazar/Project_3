@@ -53,7 +53,13 @@ contract project3 {
     }
 
     // how to parse JSON object, and where?
-    function buildPortfolio(uint id, CustomerMetrics metrics, string[] portfolios_info) public returns(Portfolio) {
+    function buildPortfolio(uint id, CustomerMetrics metrics, IndustryData industry_data, string[] portfolios_info) public returns(Portfolio) {
+      /** @dev Builds a suggested portfolio allocation based on customer requirements.
+        * @param uint id
+        * @param CustomerMetrics metrics, IndustryData industry_data, string[] portfolios_info
+
+        * @return p The calculated perimeter.
+        */
         Portfolio portfolio=Portfolio();
         risk = metrics.risk; 
         industries = metrics.industries_preferences;
