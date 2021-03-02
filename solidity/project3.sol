@@ -55,32 +55,27 @@ contract project3 {
     // how to parse JSON object, and where?
     function buildPortfolio(uint id, CustomerMetrics metrics, IndustryData industry_data, string[] portfolios_info) public returns(Portfolio) {
       /** @dev Builds a suggested portfolio allocation based on customer requirements.
-        * @param uint id
-        * @param CustomerMetrics metrics, IndustryData industry_data, string[] portfolios_info
-
-        * @return p The calculated perimeter.
+        * @param id portfolio id 
+        * @param metrics the customer investment requirements
+        * @param industry_data industry specific performance data
+        * @param portfolios_info any additional portfolio parameters
+        * @return portfolio the recommended portfolio allocations
         */
-        Portfolio portfolio=Portfolio();
-        risk = metrics.risk; 
-        industries = metrics.industries_preferences;
-        performanceData = filterIndustires(performanceData, industries);
-        performanceData = filterRisk(performanceData, risk);
-        portfolio = buildFromSharpeRatio(performanceData);
-        portfolios[id]=portfolio;
-        return true;
+        //Portfolio portfolio=Portfolio();
+        //risk = metrics.risk; 
+        //industries = metrics.industries_preferences;
+        //performanceData = filterIndustires(performanceData, industries);
+        //performanceData = filterRisk(performanceData, risk);
+        //portfolio = buildFromSharpeRatio(performanceData);
+        //portfolios[id]=portfolio;
+        return Portfolio(new string[2][], "", 0);
     }
     
     function filterIndustires(PerformanceData performanceData, string[] industries) public returns(PerformanceData) {
-        
-        
     }   
     function filterRisk(PerformanceData performanceData, string[] risk) public returns(PerformanceData) {
-        
     }
-    
-    
     function buildFromSharpeRatio(PerformanceData performanceData, uint numIndustries) public returns(Portfolio){
-        
     }
    
       
