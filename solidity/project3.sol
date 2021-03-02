@@ -1,94 +1,78 @@
+// SPDX-License-Identifier: MIT
 pragma solidity ^0.7.4;
-pragma experimental ABIEncoderV2;
-
+//pragma experimental ABIEncoderV2;
 /*
 {
-    "id":1,
-    "date":"2021-01-02",
-    "assets": [
+    “id”:1,
+    “date”:“2021-01-02”,
+    “assets”: [
         {
-            "asset_name":"TSLA",
-            "allocation":100
+            “asset_name”:“TSLA”,
+            “allocation”:100
         },
         {
-            "asset_name":"AAPL",
-            "allocation":50
+            “asset_name”:“AAPL”,
+            “allocation”:50
         }
     ]
 }
 */
-
 contract project3 {
-    
     struct Portfolio {
         string industries;
         //string [2][] industries;
         string date;
-        uint id;          
+        uint id;
     }
-    
     struct CustomerMetrics {
         uint risk;
         uint unitial_investment;
         string[] industries_preferences;
         uint investing_duration;
-        
     }
-    
-    
-        
-    struct PerformanceData { 
+    struct PerformanceData {
         fixed annualized_return;
         fixed sharpe_ratio;
         fixed volatility;
     }
-    
-    struct IndustryData { 
+    struct IndustryData {
         fixed annualized_return;
         fixed sharpe_ratio;
         fixed volatility;
     }
-        
-    
     mapping(uint => Portfolio) public portfolios;
-    
-    
-    constructor() public {}
+    constructor() {}
     // constructor (string[] memory industry_return_data, string[] memory industry_volatility_data, string[] memory industry_sharperatio_data) public {
     // }
-
     // how to parse JSON object, and where?
-    function buildPortfolio(uint id, CustomerMetrics memory metrics, IndustryData memory industry_data, string[] memory portfolios_info) public returns(Portfolio memory) {
+    function buildPortfolio() public returns(string memory) {
+    // uint id, CustomerMetrics memory metrics, IndustryData memory industry_data, string memor portfolios_info) public returns(string) {
       /** @dev Builds a suggested portfolio allocation based on customer requirements.
-        * @param id portfolio id 
+        * @param id portfolio id
         * @param metrics the customer investment requirements
         * @param industry_data industry specific performance data
         * @param portfolios_info any additional portfolio parameters
         * @return portfolio the recommended portfolio allocations
         */
         //Portfolio portfolio=Portfolio();
-        //risk = metrics.risk; 
+        //risk = metrics.risk;
         //industries = metrics.industries_preferences;
         //performanceData = filterIndustires(performanceData, industries);
         //performanceData = filterRisk(performanceData, risk);
         //portfolio = buildFromSharpeRatio(performanceData);
         //portfolios[id]=portfolio;
-        return Portfolio("", "", 0);
+        return "This is a test portfolio.";
+        // return Portfolio(“”, “”, 0);
     }
-    
     //function filterIndustires(PerformanceData performanceData, string[] industries) public returns(PerformanceData) {
-    //}   
+    //}
     //function filterRisk(PerformanceData performanceData, string[] risk) public returns(PerformanceData) {
     //}
     //function buildFromSharpeRatio(PerformanceData performanceData, uint numIndustries) public returns(Portfolio){
     //}
-   
-      
-    
     //function() external payable {
         // fallback function
     //}
-    
     /*
     // This function will convert an uint type value to string type
     // Will be used to store into dynamic Portfolio array
@@ -107,7 +91,6 @@ contract project3 {
         }
         str = string(s);
     }
-    
     // This function will convert a string type value to an uint type
     // Will be used to read from Porfolio dynamic array (if needed)
     function stringToUint(string s) constant returns (uint result) {
@@ -121,7 +104,6 @@ contract project3 {
             }
         }
     }
-    
     function stringToUint(string s) constant returns (uint) {
         bytes memory b = bytes(s);
         uint result = 0;
@@ -132,7 +114,6 @@ contract project3 {
         }
         return result; // this was missing
     }
-
     function uintToString(uint v) constant returns (string) {
         uint maxlength = 100;
         bytes memory reversed = new bytes(maxlength);
@@ -146,18 +127,14 @@ contract project3 {
         for (uint j = 0; j < i; j++) {
             s[j] = reversed[i - j - 1]; // to avoid the off-by-one error
         }
-        string memory str = string(s);  // memory isn't implicitly convertible to storage
+        string memory str = string(s);  // memory isn’t implicitly convertible to storage
         return str;
     }
     */
-    
-    // NOTES 
+    // NOTES
     // Receive JSON object to contract
     // Store struct on chain
-    
     // Error checking to revert changes, if invalid values are found in JSON
-    
     //  function buildPortfolio(price_prediction, valuation, customer_metrics) public returns(portfolio_type portfolio) {
     //  }
 }
-

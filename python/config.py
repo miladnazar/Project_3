@@ -1,10 +1,13 @@
+from pathlib import Path
+
 import requests
 import json
 import os
+from dotenv import load_dotenv
 
 from web3.auto import w3
 
-// Read api keys from .json or .xml
+# // Read api keys from .json or .xml
 headers = {
     "Content-Type":"application/json",
     "pinata_api_key":"",
@@ -12,9 +15,10 @@ headers = {
 }
 
 def initContract():
-    # CryptoFax.json
-    # return w3.eth.contract(address="", abi="json.load()")
-    return -1
+    load_dotenv()
+    with open(Path("Project3_ABI.json")) as json_file:
+        abi = json.load(json_file)
+    return w3.eth.contract(address=os.getenv("PROJECT3_ADDRESS"), abi=abi)
 
 def convertDataToJSON():
     # json.dumps()
