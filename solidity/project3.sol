@@ -1,4 +1,5 @@
 pragma solidity ^0.7.4;
+pragma experimental ABIEncoderV2;
 
 /*
 {
@@ -18,15 +19,17 @@ pragma solidity ^0.7.4;
 */
 
 contract project3 {
+    
     struct Portfolio {
-        string [2][] industries; 
+        string industries;
+        //string [2][] industries;
         string date;
         uint id;          
     }
     
     struct CustomerMetrics {
         uint risk;
-        long unitial_investment;
+        uint unitial_investment;
         string[] industries_preferences;
         uint investing_duration;
         
@@ -38,22 +41,24 @@ contract project3 {
         fixed annualized_return;
         fixed sharpe_ratio;
         fixed volatility;
-        
+    }
     
-        
+    struct IndustryData { 
+        fixed annualized_return;
+        fixed sharpe_ratio;
+        fixed volatility;
     }
         
     
     mapping(uint => Portfolio) public portfolios;
     
     
-    
-    constructor(string[] industry_return_data, string[] industry_volatility_data, string[] industry_sharperatio_data) public {
-
-    }
+    constructor() public {}
+    // constructor (string[] memory industry_return_data, string[] memory industry_volatility_data, string[] memory industry_sharperatio_data) public {
+    // }
 
     // how to parse JSON object, and where?
-    function buildPortfolio(uint id, CustomerMetrics metrics, IndustryData industry_data, string[] portfolios_info) public returns(Portfolio) {
+    function buildPortfolio(uint id, CustomerMetrics memory metrics, IndustryData memory industry_data, string[] memory portfolios_info) public returns(Portfolio memory) {
       /** @dev Builds a suggested portfolio allocation based on customer requirements.
         * @param id portfolio id 
         * @param metrics the customer investment requirements
@@ -68,21 +73,21 @@ contract project3 {
         //performanceData = filterRisk(performanceData, risk);
         //portfolio = buildFromSharpeRatio(performanceData);
         //portfolios[id]=portfolio;
-        return Portfolio(new string[2][], "", 0);
+        return Portfolio("", "", 0);
     }
     
-    function filterIndustires(PerformanceData performanceData, string[] industries) public returns(PerformanceData) {
-    }   
-    function filterRisk(PerformanceData performanceData, string[] risk) public returns(PerformanceData) {
-    }
-    function buildFromSharpeRatio(PerformanceData performanceData, uint numIndustries) public returns(Portfolio){
-    }
+    //function filterIndustires(PerformanceData performanceData, string[] industries) public returns(PerformanceData) {
+    //}   
+    //function filterRisk(PerformanceData performanceData, string[] risk) public returns(PerformanceData) {
+    //}
+    //function buildFromSharpeRatio(PerformanceData performanceData, uint numIndustries) public returns(Portfolio){
+    //}
    
       
     
-    function() external payable {
+    //function() external payable {
         // fallback function
-    }
+    //}
     
     /*
     // This function will convert an uint type value to string type
@@ -155,3 +160,4 @@ contract project3 {
     //  function buildPortfolio(price_prediction, valuation, customer_metrics) public returns(portfolio_type portfolio) {
     //  }
 }
+
