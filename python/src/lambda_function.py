@@ -28,7 +28,7 @@ def dispatch(intent_request):
     intent_name = intent_request["currentIntent"]["name"]
 
     # Dispatch to bot's intent handlers
-    if intent_name == "PortfolioBuilder":
+    if intent_name == "PortfolioBuilder_Project3":
         return get_recommended_portfolio_intent_handler(intent_request)
 
     raise Exception("Intent with name " + intent_name + " not supported")
@@ -201,12 +201,7 @@ def delegate(session_attributes, slots):
 def get_recommended_portfolio(investingDuration, investmentAmount, risk, investingExperienceLevel, use_test_data=False):
 
     # Construct helper objects
-    price_getter = PriceGetter()
-    balance_sheet_getter = BalanceSheetGetter()
-    stock_filter = StockFilter()
-    price_forecaster = PriceForecaster()
-    valuation_calculator = ValuationCalculator()
-    portfolio_builder = PortfolioBuilder()
+    portfolio_builder_project3 = PortfolioBuilderProject3()
 
     # Build data structures
     stock_info_container = StockInfoContainer()
