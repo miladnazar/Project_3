@@ -27,8 +27,11 @@ def main():#argc, argv):
         industry_data = ""
         portfolios_info = ""
 
+        build_portfolio()
+
         contract = initContract()
-        portfolio = contract.functions.buildPortfolio().call()
+        print(contract)
+        portfolio = contract.functions.registerPortfolio().call()
         # portfolio = contract.functions.buildPortfolio(id, metrics, industry_data, portfolios_info)
 
         print(portfolio)
