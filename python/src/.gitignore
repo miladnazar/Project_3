@@ -1,0 +1,6 @@
+# Ignoring local dependency package dir
+.package/
+
+# Ignoring build deployment package
+*.zip
+
