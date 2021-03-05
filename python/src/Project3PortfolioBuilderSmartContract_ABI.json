@@ -58,7 +58,7 @@
 						"type": "uint256"
 					}
 				],
-				"internalType": "struct project3.Portfolio",
+				"internalType": "struct Project3PortfolioBuilderSmartContract.Portfolio",
 				"name": "portfolio",
 				"type": "tuple"
 			}

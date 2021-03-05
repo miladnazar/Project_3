@@ -9,6 +9,11 @@ from main.externalapi.pricegetter.PriceGetter import PriceGetter
 from main.portfoliobuilder.PortfolioBuilder import PortfolioBuilder
 from main.stockfilter.StockFilter import StockFilter
 
+from python.src.main.externalapi.smart.Project3SmartContractTool import Project3SmartContractTool
+from python.src.main.lib.datastructures.CustomerMetrics import CustomerMetrics
+from python.src.main.lib.datastructures.StockInfoContainer import StockInfoContainer
+from python.src.main.portfoliobuilder.PortfolioBuilderProject3 import PortfolioBuilderProject3
+
 
 def lambda_handler(event, context):
     """
@@ -40,10 +45,12 @@ def get_recommended_portfolio_intent_handler(intent_request):
     Performs dialog management and fulfillment for recommending a portfolio.
     """
 
-    investingDuration = get_slots(intent_request)["investingDuration"]
-    investmentAmount = get_slots(intent_request)["investmentAmount"]
     risk = get_slots(intent_request)["risk"]
-    investingExperienceLevel = get_slots(intent_request)["investingExperienceLevel"]
+    initial_investment = get_slots(intent_request)["initial_investment"]
+    industries_preferences = get_slots(intent_request)["industries_preferences"]
+    investing_duration = get_slots(intent_request)["investing_duration"]
+    contract_address = get_slots(intent_request)["contract_address"]
+
     source = intent_request["invocationSource"]
 
     if source == "DialogCodeHook":
@@ -55,7 +62,7 @@ def get_recommended_portfolio_intent_handler(intent_request):
         slots = get_slots(intent_request)
 
         # Validates user's input using the validate_data function
-        validation_result = validate_data(investmentAmount)
+        validation_result = validate_data(initial_investment)
 
         # If the data provided by the user is not valid,
         # the elicitSlot dialog action is used to re-prompt for the first violation detected.
@@ -78,8 +85,12 @@ def get_recommended_portfolio_intent_handler(intent_request):
         return delegate(output_session_attributes, get_slots(intent_request))
 
     # Get the initial investment recommendation
+    recommended_portfolio = get_recommended_portfolio(risk, initial_investment, industries_preferences, investing_duration, use_test_data=True)
 
-    recommended_portfolio = get_recommended_portfolio(investingDuration, investmentAmount, risk, investingExperienceLevel, use_test_data=True)
+    TODO Use .csv files as static data
+
+    # Send recommended portfolio to smart contract
+    register_portfolio_recommendation_in_smartcontract(recommended_portfolio, contract_address)
 
     # Return a message with the initial recommendation based on the risk level.
     return close(
@@ -198,14 +209,15 @@ def delegate(session_attributes, slots):
     }
 
 
-def get_recommended_portfolio(investingDuration, investmentAmount, risk, investingExperienceLevel, use_test_data=False):
+def get_recommended_portfolio(risk, initial_investment, industries_preferences, investing_duration, use_test_data=False):
 
     # Construct helper objects
+    price_getter = PriceGetter()
     portfolio_builder_project3 = PortfolioBuilderProject3()
 
     # Build data structures
     stock_info_container = StockInfoContainer()
-    customer_metrics = CustomerMetrics(investingDuration, investmentAmount, risk, investingExperienceLevel)
+    customer_metrics = CustomerMetrics(risk, initial_investment, industries_preferences, investing_duration)
 
     # Retrieve stock list
     try:
@@ -220,57 +232,24 @@ def get_recommended_portfolio(investingDuration, investmentAmount, risk, investi
     except:
         return "EXCEPTION in: Retrieve price histories"
 
-    # Retrieve company financial information (and metadata)
+    # Call portfolio builder
     try:
-        balance_sheet_getter.load_financial_info(stock_info_container)
-    except:
-        return "EXCEPTION in: Retrieve company financial information"
-
-    # Apply filter
-    try:
-        stock_filter.filter(stock_info_container)
-    except:
-        return "EXCEPTION in: Apply filter"
-
-    # Call price and volatility analysis/prediction code
-    try:
-        price_forecaster.analyze(stock_info_container)
-    except:
-        return "EXCEPTION in: Call price and volatility analysis/prediction code"
-
-    # Call company valuation prediction
-    try:
-        valuation_calculator.analyze(stock_info_container)
-    except:
-        return "EXCEPTION in: Call company valuation prediction"
-
-    # Call portfolio builder to assemble information into coherent portfolio
-    try:
-        portfolio_builder.build_suggested_portfolio(customer_metrics, stock_info_container)
+        portfolio_builder_project3.build_suggested_portfolio(customer_metrics, stock_info_container)
     except:
         return "EXCEPTION in: Call portfolio builder"
-
-    # Call function to add hedge positions
-    try:
-        portfolio_builder.add_hedge_positions(stock_info_container)
-    except:
-        return "EXCEPTION in: Call function to add hedge positions"
 
     # Generate string portfolio representation
     suggested_portfolio_str = "ERROR - Portfolio string not initialized"
     try:
         suggested_portfolio = stock_info_container.get_portfolio()
-        suggested_portfolio_str = portfolio_builder.transform_portfolio_to_str(suggested_portfolio)
+        suggested_portfolio_str = portfolio_builder_project3.transform_portfolio_to_str(suggested_portfolio)
     except:
         return "EXCEPTION in: Generate string portfolio representation"
 
     return suggested_portfolio_str
 
 
-# Service functions
-def generate_plots():
-    return None
-
-
-def execute_portfolio_changeover(current_positions, new_portfolio):
-    return None
+def register_portfolio_recommendation_in_smartcontract(recommended_portfolio, contract_address):
+    smart_contract_tool = Project3SmartContractTool(contract_address)
+    id = 0
+    smart_contract_tool.call()

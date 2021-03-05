@@ -1,19 +1,19 @@
 class CustomerMetrics:
 
-    def __init__(self, investingDuration, investmentAmount, risk, investingExperience):
-        self.__investing_duration = investingDuration
-        self.__investment_amount = investmentAmount
+    def __init__(self, risk, initial_investment, industries_preferences, investing_duration):
         self.__risk = risk
-        self.__investing_experience = investingExperience
-
-    def get_investing_duration(self):
-        return self.investing_duration
-
-    def get_investment_amount(self):
-        return self.investment_amount
+        self.__initial_investment = initial_investment
+        self.__industries_preferences = industries_preferences
+        self.__investing_duration = investing_duration
 
     def get_risk(self):
-        return self.risk
+        return self.__risk
 
-    def get_investing_experience(self):
-        return self.investing_experience
+    def get_initial_investment(self):
+        return self.__initial_investment
+
+    def get_industries_preferences(self):
+        return self.__industries_preferences
+
+    def get_investing_duration(self):
+        return self.__investing_duration

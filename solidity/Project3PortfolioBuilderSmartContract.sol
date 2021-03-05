@@ -2,13 +2,11 @@
 pragma solidity ^0.7.4;
 pragma experimental ABIEncoderV2;
 
-contract project3 {
+contract Project3PortfolioBuilderSmartContract {
 
     struct Portfolio {
-        string industries;
-        //string [2][] industries;
         string date;
-        uint id;
+        string industries;  // Technically this is a mapping of string => int.
     }
 
     mapping(uint => string) public portfolio_strings;
@@ -26,7 +24,7 @@ contract project3 {
         * @param portfolio The recommended portfolio allocations in string form.
         * @return result True if success; false if string is empty.
         */
-        // TODO Error handling - return fals if empty string.
+        // TODO Error handling - return false if empty string.
         portfolio_strings[id] = portfolio_str;
         return true;
     }

@@ -1,14 +1,14 @@
 import numpy as np
 
-from main.portfoliobuilder.PortfolioBuilderTool import PortfolioBuilderTool
+from python.src.main.portfoliobuilder.EfficientFrontierPortfolioBuilderTool import EfficientFrontierPortfolioBuilderTool
 
 
-class PortfolioBuilder:
+class PortfolioBuilderProject3:
 
 
     def __init__(self, debug_level=0):
         self.__debug_level = debug_level
-        self.__portfolio_builder_tool = PortfolioBuilderTool()
+        self.__efficient_frontier_portfolio_builder_tool = EfficientFrontierPortfolioBuilderTool()
 
 
     # --------------------------------------------------------------------------
@@ -18,19 +18,16 @@ class PortfolioBuilder:
 
     def build_suggested_portfolio(self, customer_metrics, stock_info_container):
         """
-        Construct a suggested portfolio based on scores assigned to stocks through various analysis techniques.
+        Construct a suggested portfolio.
 
         :param customer_metrics: CustomerMetrics instance containing high-level portfolio design requirements from the customer.
         :param stock_info_container: StockInfoContainer containing stocks with associated score.
         :return:
         """
 
-        # Compute composite score and sort
-        self.__portfolio_builder_tool.compute_composite_scores(customer_metrics, stock_info_container)
-        stock_score_list = self.__portfolio_builder_tool.sort_stock_score_list(stock_info_container)
+        # Run the efficient frontier algorithm
+        self.__efficient_frontier_portfolio_builder_tool.compute_portfolio(customer_metrics, stock_info_container)
 
-        # Compute number of shares
-        stock_info_container = self.__portfolio_builder_tool.compute_shares(customer_metrics, stock_score_list, stock_info_container)
         return stock_info_container
 
 
@@ -46,8 +43,3 @@ class PortfolioBuilder:
             i += 1
 
         return portfolio_str
-
-
-    def add_hedge_positions(self, stock_info_container):
-        # TODO
-        return stock_info_container

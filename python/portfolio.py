@@ -29,6 +29,8 @@ def main():#argc, argv):
 
         build_portfolio()
 
+        # TODO David specify inputs and outputs foreach component.
+
         contract = initContract()
         print(contract)
         portfolio = contract.functions.registerPortfolio().call()
