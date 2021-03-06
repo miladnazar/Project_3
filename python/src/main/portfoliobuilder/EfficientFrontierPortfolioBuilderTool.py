@@ -41,9 +41,23 @@ class EfficientFrontierPortfolioBuilderTool:
         mu = expected_returns.mean_historical_return(stock_price_history)
         S = risk_models.sample_cov(stock_price_history)
 
+
+        S_ all industries
+
+
+
+
+
+
+
+
+
         # Optimize for the maximal Sharpe ratio
         ef = EfficientFrontier(mu, S)  # Creates the Efficient Frontier Object
         weights = ef.max_sharpe()
+
+
+
 
         cleaned_weights = ef.clean_weights()
         # print(cleaned_weights)

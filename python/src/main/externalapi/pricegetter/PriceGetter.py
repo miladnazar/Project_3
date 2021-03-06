@@ -103,20 +103,38 @@ class PriceGetter:
     # --------------------------------------------------------------------------
 
 
-    def get_prices(self, stock_info_container, trailing_n_days, use_test_data=False, use_csv_input_data=False):
+    def get_prices(self, stock_info_container, trailing_n_days, ticker_type, use_test_data=False, use_csv_input_data=False):
+        if "Stocks" == ticker_type:
+            return self.__get_stock_price_data(stock_info_container, trailing_n_days, use_test_data, use_csv_input_data)
+        elif "Cryptos" == ticker_type:
+            # TODO Not implemented
+            return None
+        elif "StocksAndCryptos" == ticker_type:
+            # TODO Not implemented
+            return None
+        elif "Industries" == ticker_type:
+            return self.__get_industry_price_data(stock_info_container, use_test_data, use_csv_input_data)
+        else:
+            # TODO Return error
+            return None
 
+
+    def __get_stock_price_data(self, stock_info_container, trailing_n_days, use_test_data, use_csv_input_data):
         if use_test_data:
             # TODO Not implemented
             return None
         elif use_csv_input_data:
-            return self.__get_prices_from_csvdata(stock_info_container)
+            return self.__get_stock_prices_from_csvdata(stock_info_container)
         else:
-            return self.__get_prices_from_datasource(stock_info_container, trailing_n_days)
-
-    def __get_prices_from_csvdata(self, stock_info_container):
+            return self.__get_stock_prices_from_datasource(stock_info_container, trailing_n_days)
 
 
-    def __get_prices_from_datasource(self, stock_info_container, trailing_n_days):
+    def __get_stock_prices_from_csvdata(self, stock_info_container):
+        # TODO Not implemented
+        return None
+
+
+    def __get_stock_prices_from_datasource(self, stock_info_container, trailing_n_days):
 
         # Build dates to capture trailing n days
         now = pd.Timestamp.now(tz="America/New_York")
@@ -136,3 +154,22 @@ class PriceGetter:
 
         stock_info_container.add_stock_price_history(stock_closing_prices_df)
         return stock_info_container
+
+
+    def __get_industry_price_data(self, stock_info_container, use_test_data, use_csv_input_data):
+        if use_test_data:
+            # TODO Not implemented
+            return None
+        elif use_csv_input_data:
+            return self.__get_industry_price_data_from_csv()
+        else:
+            # TODO Not implemented
+            return None
+
+
+    def __get_industry_price_data_from_csv(self, stock_info_container):
+        # TODO Should be driven by stock_info_container.get_all_tickers()
+        # for ticker in stock_info_container.get_all_tickers():
+
+        industry_data = IndustryData()
+        return industry_data.industry_price_history__

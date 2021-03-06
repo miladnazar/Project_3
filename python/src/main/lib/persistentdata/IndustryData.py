@@ -13,6 +13,7 @@ class IndustryData(CSVDataLoader):
         # Initialize industry list
         relative_csv_file_path = Path("data/industry_list.csv")
         super().__init__(relative_csv_file_path, self.__this_file_path)
+        self.__industry_list = None
 
         # Initialize additional industry data
         self.__initialize_industry_price_history()
@@ -21,7 +22,10 @@ class IndustryData(CSVDataLoader):
 
 
     def get_industry_list(self):
-        return self.__data.keys().as_list()
+        # Transform and cache
+        if self.__industry_list is None:
+            self.__industry_list = self.get_data_as_dict().keys().as_list()
+        return self.__industry_list
 
 
     def __initialize_industry_price_history(self):
@@ -40,8 +44,8 @@ class IndustryData(CSVDataLoader):
 
 
     def __initialize_industry_multiples(self):
-        self.industry_multiples = CSVDataLoader("data/industry_multiples.csv", self.__this_file_path).get_data()
+        self.industry_multiples = CSVDataLoader("data/industry_multiples.csv", self.__this_file_path).get_data_as_dict()
 
 
     def __initialize_industry_performance_metrics(self):
-        self.industry_performance_data = CSVDataLoader("data/industry_performance_metrics.csv", self.__this_file_path).get_data()
+        self.industry_performance_data = CSVDataLoader("data/industry_performance_metrics.csv", self.__this_file_path).get_data_as_dataframe()

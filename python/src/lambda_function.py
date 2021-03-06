@@ -229,7 +229,7 @@ def get_recommended_portfolio(risk, initial_investment, industries_preferences, 
 
     # Retrieve price histories
     try:
-        price_getter.get_prices(stock_info_container, trailing_n_days=100, use_test_data, use_csv_input_data)
+        price_getter.get_prices(stock_info_container, 100, ticker_type, use_test_data, use_csv_input_data)
     except:
         return "EXCEPTION in: Retrieve price histories"
 
