@@ -5,6 +5,9 @@ import alpaca_trade_api as tradeapi
 import pandas as pd
 import requests
 
+from python.src.main.lib.persistentdata.CSVDataLoader import CSVDataLoader
+from python.src.main.lib.persistentdata.IndustryData import IndustryData
+
 
 class PriceGetter:
 
@@ -24,21 +27,96 @@ class PriceGetter:
         self.__fmp_cloud_key = '31853220bc5708a36155ca7f0481a5e0'
 
 
-    def get_tickers(self, use_test_data=False):
-        stock_ticker_list = []
+    # --------------------------------------------------------------------------
+    # Tickers
+    # --------------------------------------------------------------------------
+
+
+    def get_tickers(self, ticker_type="Stocks", use_test_data=False, use_csv_input_data=False):
+        """
+        Get the list of tickers to use for consideration of a portfolio. This list drives the entire
+        portoflio building process i.e. only these tickers will be analyzed for consideration in the
+        portoflio.
+
+        :param type: Type of tickers. Valid entries: "Stocks", "Cryptos", "StocksAndCryptos", "Industries"
+        :param use_test_data: Use test data.
+        :param use_csv_input_data: Use data from CSV files.
+        :return: List of tickers to drive the portfolio building process.
+        """
+        if "Stocks" == ticker_type:
+            return self.__get_stock_tickers(use_test_data, use_csv_input_data)
+        elif "Cryptos" == ticker_type:
+            return self.__get_crypto_tickers(use_test_data, use_csv_input_data)
+        elif "StocksAndCryptos" == ticker_type:
+            stock_ticker_list = []
+            stock_ticker_list.append(self.__get_stock_tickers(use_test_data, use_csv_input_data))
+            stock_ticker_list.append(self.__get_crypto_tickers(use_test_data, use_csv_input_data))
+            return stock_ticker_list
+        elif "Industries" == ticker_type:
+            return self.__get_industry_tickers(use_test_data, use_csv_input_data)
+        else:
+            return []
+
+
+    def __get_stock_tickers(self, use_test_data, use_csv_input_data):
         if use_test_data:
-            stock_ticker_list = [ "AAPL", "TSLA", "MSFT" ]
+            stock_ticker_list = ["AAPL", "TSLA", "MSFT"]
+        elif use_csv_input_data:
+            # TODO Not implemented
+            return []
         else:
             # Get all available stock tickers above simple market cap
             stock_ticker_str = requests.get(f'https://fmpcloud.io/api/v3/stock-screener?marketCapMoreThan=100000000&limit=100&apikey={self.__fmp_cloud_key}')
             stock_ticker_json = stock_ticker_str.json()
+            stock_ticker_list = []
             for item in stock_ticker_json:
                 stock_ticker_list.append(item['symbol'])
+            return stock_ticker_list
 
-        return stock_ticker_list
+
+    def __get_crypto_tickers(self, use_test_data, use_csv_input_data):
+        if use_test_data:
+            # TODO Not implemented
+            return []
+        elif use_csv_input_data:
+            # TODO Not implemented
+            return []
+        else:
+            # TODO Not implemented
+            return []
 
 
-    def get_prices(self, stock_info_container, trailing_n_days):
+    def __get_industry_tickers(self, use_test_data, use_csv_input_data):
+        if use_test_data:
+            # TODO Not implemented
+            return []
+        elif use_csv_input_data:
+            industry_list_dict = IndustryData().get_data()
+            return industry_list_dict.get_keys().as_list()
+        else:
+            # TODO Not implemented
+            return []
+
+
+    # --------------------------------------------------------------------------
+    # Prices
+    # --------------------------------------------------------------------------
+
+
+    def get_prices(self, stock_info_container, trailing_n_days, use_test_data=False, use_csv_input_data=False):
+
+        if use_test_data:
+            # TODO Not implemented
+            return None
+        elif use_csv_input_data:
+            return self.__get_prices_from_csvdata(stock_info_container)
+        else:
+            return self.__get_prices_from_datasource(stock_info_container, trailing_n_days)
+
+    def __get_prices_from_csvdata(self, stock_info_container):
+
+
+    def __get_prices_from_datasource(self, stock_info_container, trailing_n_days):
 
         # Build dates to capture trailing n days
         now = pd.Timestamp.now(tz="America/New_York")

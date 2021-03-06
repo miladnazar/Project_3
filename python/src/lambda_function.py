@@ -6,8 +6,6 @@ from main.analysis.priceanalysis.PriceForecaster import PriceForecaster
 from main.analysis.valuation.ValuationCalculator import ValuationCalculator
 from main.externalapi.balancesheetgetter.BalanceSheetGetter import BalanceSheetGetter
 from main.externalapi.pricegetter.PriceGetter import PriceGetter
-from main.portfoliobuilder.PortfolioBuilder import PortfolioBuilder
-from main.stockfilter.StockFilter import StockFilter
 
 from python.src.main.externalapi.smart.Project3SmartContractTool import Project3SmartContractTool
 from python.src.main.lib.datastructures.CustomerMetrics import CustomerMetrics
@@ -209,7 +207,10 @@ def delegate(session_attributes, slots):
     }
 
 
-def get_recommended_portfolio(risk, initial_investment, industries_preferences, investing_duration, use_test_data=False):
+def get_recommended_portfolio(risk, initial_investment, industries_preferences, investing_duration,
+                              ticker_type="Stocks",
+                              use_test_data=False,
+                              use_csv_input_data=False):
 
     # Construct helper objects
     price_getter = PriceGetter()
@@ -219,16 +220,16 @@ def get_recommended_portfolio(risk, initial_investment, industries_preferences, 
     stock_info_container = StockInfoContainer()
     customer_metrics = CustomerMetrics(risk, initial_investment, industries_preferences, investing_duration)
 
-    # Retrieve stock list
+    # Retrieve ticker list
     try:
-        stock_ticker_list = price_getter.get_tickers(use_test_data=True)
+        stock_ticker_list = price_getter.get_tickers(ticker_type, use_test_data, use_csv_input_data)
         stock_info_container.add_ticker_list(stock_ticker_list)
     except:
-        return "EXCEPTION in: Retrieve stock list"
+        return "EXCEPTION in: Retrieve ticker list"
 
     # Retrieve price histories
     try:
-        price_getter.get_prices(stock_info_container, trailing_n_days=100)
+        price_getter.get_prices(stock_info_container, trailing_n_days=100, use_test_data, use_csv_input_data)
     except:
         return "EXCEPTION in: Retrieve price histories"
 
@@ -252,4 +253,4 @@ def get_recommended_portfolio(risk, initial_investment, industries_preferences, 
 def register_portfolio_recommendation_in_smartcontract(recommended_portfolio, contract_address):
     smart_contract_tool = Project3SmartContractTool(contract_address)
     id = 0
-    smart_contract_tool.call()
+    smart_contract_tool.call(id, recommended_portfolio)
