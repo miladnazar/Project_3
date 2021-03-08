@@ -1,85 +1,72 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.7.4;
+pragma solidity ^0.5.17;
 pragma experimental ABIEncoderV2;
+import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/release-v4.0.0-beta.0/contracts/token/ERC721/ERC721Full.sol";
+import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/release-v4.0.0-beta.0/contracts/drafts/Counters.sol";
 
-contract Project3PortfolioBuilderSmartContract {
+contract Project3PortfolioBuilderSmartContract is ERC721Full {
+
+    constructor() ERC721Full("PortfolioCoin", "PFC") public { }
 
     struct Portfolio {
         string date;
-        string industries;  // Technically this is a mapping of string => int.
+        string name;
+        string portfolio_string; // for testing
     }
 
-    mapping(uint => string) public portfolio_strings;
+    using Counters for Counters.Counter;
+    Counters.Counter token_ids;
+
     mapping(uint => Portfolio) public portfolios;
 
-    constructor() {}
-
-    // -------------------------------------------------------------------------
-    // String-based portfolio map functions
-    // -------------------------------------------------------------------------
-
-    function registerPortfolioString(uint id, string memory portfolio_str) public returns(bool) {
-      /** @dev Registers a portfolio allocation in string form.
-        * @param id The portfolio id.
-        * @param portfolio The recommended portfolio allocations in string form.
-        * @return result True if success; false if string is empty.
-        */
-        // TODO Error handling - return false if empty string.
-        portfolio_strings[id] = portfolio_str;
-        return true;
-    }
-
-    function getPortfolioString(uint id) public returns(string memory) {
-      /** @dev Retrieves a previously-registered portfolio allocation.
-        * @param id The portfolio id.
-        * @return portfolio The recommended portfolio allocations in string form; empty string if no portfolio registered with the id.
-        */
-        // TODO Error handling.
-        return portfolio_strings[id];
-    }
+    event PortfolioEvent(uint token_id, string portfolio_uri);
 
     // -------------------------------------------------------------------------
     // Struct-based portfolio map functions
     // -------------------------------------------------------------------------
 
-    function registerPortfolio(uint id, Portfolio memory portfolio) public returns(bool) {
+    function registerPortfolio(string memory portfolio_uri, address owner, string memory date, string memory name, string memory portfolio_string) public returns(uint) {
       /** @dev Registers a portfolio allocation.
         * @param id The portfolio id.
         * @param portfolio The recommended portfolio allocation.
         * @return result Success indicator.
         */
-        portfolios[id] = portfolio;
-        return true;
+
+        token_ids.increment();
+        uint token_id = token_ids.current();
+
+        _mint(owner,token_id);  // TODO
+        _setTokenURI(token_id, portfolio_uri);  // TODO
+
+        portfolios[token_id] = Portfolio(date, name, portfolio_string);
+
+        emit PortfolioEvent(token_id, portfolio_uri);
+
+        return token_id;
     }
 
-    function getPortfolio(uint id) public returns(Portfolio memory) {
+    // experimental, for testing
+    function registerPortfolio(uint token_id, string memory portfolio_uri, string memory tester) public returns(string memory) {
+        portfolios[token_id].portfolio_string = tester;
+        emit PortfolioEvent(token_id,portfolio_uri);
+        return portfolios[token_id].portfolio_string; // for testing
+    }
+
+    function getPortfolio(uint token_id) public returns(Portfolio memory) {
       /** @dev Retrieves a previously-registered portfolio allocation.
         * @param id The portfolio id.
         * @return portfolio The recommended portfolio allocation.
         */
-        return portfolios[id];
+        return portfolios[token_id];
     }
 
-    // NOTES
-    // Receive JSON object to contract
-    // Store struct on chain
-    // Error checking to revert changes, if invalid values are found in JSON
-
-    /*
-    {
-        “id”:1,
-        “date”:“2021-01-02”,
-        “assets”: [
-            {
-                “asset_name”:“TSLA”,
-                “allocation”:100
-            },
-            {
-                “asset_name”:“AAPL”,
-                “allocation”:50
-            }
-        ]
+    function getPortfolioString(uint token_id) public returns(string memory) {
+      /** @dev Retrieves a previously-registered portfolio allocation.
+        * @param id The portfolio id.
+        * @return portfolio The recommended portfolio allocation.
+        */
+        Portfolio memory portfolio = portfolios[token_id];
+        return portfolio.portfolio_string;
     }
-    */
 
 }
