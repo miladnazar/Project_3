@@ -25,7 +25,6 @@ class PortfolioBuilderProject3:
 
         # Run the efficient frontier algorithm
         self.__efficient_frontier_portfolio_builder_tool.compute_portfolio(customer_metrics, stock_info_container)
-
         return stock_info_container
 
 

@@ -4,6 +4,7 @@
 ### Main Handler ###
 
 import pandas as pd
+import dateparser
 
 from main.externalapi.pricegetter.PriceGetter import PriceGetter
 
@@ -256,15 +257,38 @@ def sum_price_data_for_industries(price_history):
     first_loop = True
     for industry in price_history.keys():
         other = price_history[industry]
-        other.set_index('Date')
+        # other['Date'] = parse_date_list(other['Date'])
+        # other.set_index('Date')
         other = other.sum(1)
         if first_loop:
             all_industries = other
             first_loop = False
         else:
             all_industries = pd.concat([all_industries, other], axis=1)
+
+    # Set the column names and index
     all_industries.columns = list(price_history.keys())
+    # all_industries.index = price_history[ list(price_history.keys())[0] ].index
     return all_industries
+
+
+def parse_date_list(date_string_list):
+    date_list = []
+    for date_string in date_string_list:
+        try:
+            date1 = dateparser.parse(date_string)
+            date2 = pd.Timestamp(date1.isoformat(), tz="America/New_York", tzinfo=date1.tzinfo)
+            date_list.append(date2)
+        except:
+            date_list.append(None)
+    return date_list
+
+
+
+
+
+
+
 
 
 def register_portfolio_recommendation_in_smartcontract(recommended_portfolio, contract_address):

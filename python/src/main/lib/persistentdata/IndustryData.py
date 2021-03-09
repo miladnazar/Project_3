@@ -65,7 +65,7 @@ class IndustryData(CSVDataLoader):
         self.__industry_price_history["Health_Care"] = CSVDataLoader("data/industry_price_history/Health_Care.csv", self.__this_file_path, True).get_data_as_dataframe()
         self.__industry_price_history["Industrial"] = CSVDataLoader("data/industry_price_history/Industrial.csv", self.__this_file_path, True).get_data_as_dataframe()
         self.__industry_price_history["Information_Technology"] = CSVDataLoader("data/industry_price_history/Information_Technology.csv", self.__this_file_path, True).get_data_as_dataframe()
-        self.__industry_price_history["KEY"] = CSVDataLoader("data/industry_price_history/KEY.csv", self.__this_file_path, True).get_data_as_dataframe()
+        # self.__industry_price_history["KEY"] = CSVDataLoader("data/industry_price_history/KEY.csv", self.__this_file_path, True).get_data_as_dataframe()
         self.__industry_price_history["Materials"] = CSVDataLoader("data/industry_price_history/Materials.csv", self.__this_file_path, True).get_data_as_dataframe()
         self.__industry_price_history["Real_State_Stocks_Update"] = CSVDataLoader("data/industry_price_history/Real_State_Stocks_Update.csv", self.__this_file_path, True).get_data_as_dataframe()
         self.__industry_price_history["Utilities"] = CSVDataLoader("data/industry_price_history/Utilities.csv", self.__this_file_path, True).get_data_as_dataframe()
