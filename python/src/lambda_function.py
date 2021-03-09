@@ -2,6 +2,9 @@
 
 
 ### Main Handler ###
+
+import pandas as pd
+
 from main.externalapi.pricegetter.PriceGetter import PriceGetter
 
 from python.src.main.externalapi.smart.Project3SmartContractTool import Project3SmartContractTool
@@ -224,7 +227,10 @@ def get_recommended_portfolio(risk, initial_investment, industries_preferences, 
 
     # Retrieve price histories
     try:
-        price_getter.get_prices(stock_info_container, 100, ticker_type, use_test_data, use_csv_input_data)
+        price_history = price_getter.get_prices(stock_info_container, 100, ticker_type, use_test_data, use_csv_input_data)
+        if "Industries" == ticker_type:
+            price_history = sum_price_data_for_industries(price_history)
+        stock_info_container.add_stock_price_history(price_history)
     except:
         return "EXCEPTION in: Retrieve price histories"
 
@@ -243,6 +249,22 @@ def get_recommended_portfolio(risk, initial_investment, industries_preferences, 
         return "EXCEPTION in: Generate string portfolio representation"
 
     return suggested_portfolio_str
+
+
+def sum_price_data_for_industries(price_history):
+    all_industries = None
+    first_loop = True
+    for industry in price_history.keys():
+        other = price_history[industry]
+        other.set_index('Date')
+        other = other.sum(1)
+        if first_loop:
+            all_industries = other
+            first_loop = False
+        else:
+            all_industries = pd.concat([all_industries, other], axis=1)
+    all_industries.columns = list(price_history.keys())
+    return all_industries
 
 
 def register_portfolio_recommendation_in_smartcontract(recommended_portfolio, contract_address):

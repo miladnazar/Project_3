@@ -161,7 +161,7 @@ class PriceGetter:
             # TODO Not implemented
             return None
         elif use_csv_input_data:
-            return self.__get_industry_price_data_from_csv()
+            return self.__get_industry_price_data_from_csv(stock_info_container)
         else:
             # TODO Not implemented
             return None
@@ -172,4 +172,4 @@ class PriceGetter:
         # for ticker in stock_info_container.get_all_tickers():
 
         industry_data = IndustryData()
-        return industry_data.industry_price_history__
+        return industry_data.get_industry_price_history()
