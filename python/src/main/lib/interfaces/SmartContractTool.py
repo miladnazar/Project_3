@@ -1,7 +1,6 @@
 import json
 from pathlib import Path
 
-from dotenv import load_dotenv
 from web3.auto import w3
 
 

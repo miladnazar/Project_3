@@ -91,8 +91,8 @@ class PriceGetter:
             # TODO Not implemented
             return []
         elif use_csv_input_data:
-            industry_list_dict = IndustryData().get_data()
-            return industry_list_dict.get_keys().as_list()
+            industry_list_dict = IndustryData().get_data_as_dict()
+            return list(industry_list_dict[0].values())
         else:
             # TODO Not implemented
             return []

@@ -5,8 +5,11 @@ class CSVDataTool:
     CSV utility functions.
     """
 
-    def load_csv_data_as_dataframe(self, csv_file_path):
-        dataframe = pd.read_csv(csv_file_path)
+    def load_csv_data_as_dataframe(self, csv_file_path, header_toggle):
+        if header_toggle:
+            dataframe = pd.read_csv(csv_file_path)
+        else:
+            dataframe = pd.read_csv(csv_file_path, header=None)
         return dataframe
 
     def load_csv_data_as_dict(self, csv_file_path):

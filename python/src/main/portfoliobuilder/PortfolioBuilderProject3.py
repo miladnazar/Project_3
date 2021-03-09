@@ -1,5 +1,3 @@
-import numpy as np
-
 from python.src.main.portfoliobuilder.EfficientFrontierPortfolioBuilderTool import EfficientFrontierPortfolioBuilderTool
 
 

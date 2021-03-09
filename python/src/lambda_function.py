@@ -2,9 +2,6 @@
 
 
 ### Main Handler ###
-from main.analysis.priceanalysis.PriceForecaster import PriceForecaster
-from main.analysis.valuation.ValuationCalculator import ValuationCalculator
-from main.externalapi.balancesheetgetter.BalanceSheetGetter import BalanceSheetGetter
 from main.externalapi.pricegetter.PriceGetter import PriceGetter
 
 from python.src.main.externalapi.smart.Project3SmartContractTool import Project3SmartContractTool
@@ -84,8 +81,6 @@ def get_recommended_portfolio_intent_handler(intent_request):
 
     # Get the initial investment recommendation
     recommended_portfolio = get_recommended_portfolio(risk, initial_investment, industries_preferences, investing_duration, use_test_data=True)
-
-    TODO Use .csv files as static data
 
     # Send recommended portfolio to smart contract
     register_portfolio_recommendation_in_smartcontract(recommended_portfolio, contract_address)
