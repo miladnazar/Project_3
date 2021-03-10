@@ -231,6 +231,7 @@ def get_recommended_portfolio(risk, initial_investment, industries_preferences, 
         price_history = price_getter.get_prices(stock_info_container, 100, ticker_type, use_test_data, use_csv_input_data)
         if "Industries" == ticker_type:
             price_history = sum_price_data_for_industries(price_history)
+            price_history = filter_price_data(stock_info_container, price_history, industries_preferences)
         stock_info_container.add_stock_price_history(price_history)
     except:
         return "EXCEPTION in: Retrieve price histories"
@@ -271,6 +272,26 @@ def sum_price_data_for_industries(price_history):
     all_industries.columns = list(price_history.keys())
     # all_industries.index = price_history[ list(price_history.keys())[0] ].index
     return all_industries
+
+
+def filter_price_data(stock_info_container, price_history, industries_preferences):
+
+    # Filter out the price data to match stock_info_container tickers
+    price_tickers = price_history.columns
+    allowed_tickers = stock_info_container.get_all_tickers_set()
+    for ticker in price_tickers:
+        if ticker not in allowed_tickers:
+            price_history.drop(ticker, axis=1, inplace=True)
+
+    # Filter for requested industries
+    if industries_preferences is not None:
+        industries_preferences = set(industries_preferences)
+        price_tickers = price_history.columns
+        for ticker in price_tickers:
+            if ticker not in industries_preferences:
+                price_history.drop(ticker, axis=1, inplace=True)
+
+    return price_history
 
 
 def parse_date_list(date_string_list):

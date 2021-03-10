@@ -48,6 +48,9 @@ class StockInfoContainer:
     def get_all_tickers(self):
         return list(self.__ticker_set)
 
+    def get_all_tickers_set(self):
+        return self.__ticker_set
+
     def get_portfolio(self):
         return self.__portfolio
 

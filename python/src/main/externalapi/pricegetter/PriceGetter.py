@@ -168,8 +168,7 @@ class PriceGetter:
 
 
     def __get_industry_price_data_from_csv(self, stock_info_container):
-        # TODO Should be driven by stock_info_container.get_all_tickers()
-        # for ticker in stock_info_container.get_all_tickers():
 
         industry_data = IndustryData()
-        return industry_data.get_industry_price_history()
+        industry_price_history = industry_data.get_industry_price_history()
+        return industry_price_history

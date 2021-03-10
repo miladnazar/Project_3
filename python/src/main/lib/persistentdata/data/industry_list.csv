@@ -1,25 +1,11 @@
-"Airlines"
-"Consumer Discretionary"
-"Consumer Staples"
-"Drugs, biotechnology"
-"Energy"
-"Financials"
-"Health Care"
-"Healthcare information and technology"
-"Homebuilding"
-"Hotels and casinos"
-"Industrials"
-"Information Technology"
-"Materials"
-"Medical equipment and supplies"
-"Oil and gas, exploration and production"
-"Professional information services (big data)"
-"Real Estate Investment Trust"
-"Retail, food"
-"Retail, general"
-"Software, system & application"
-"Telecom, equipment (phones & handheld devices)"
-"Telecommunication Services"
+"Communication_Services",
+"Consumer_Discretionary",
+"Consumer_Staples",
+"Energy",
+"Financials",
+"Health_Care",
+"Industrial",
+"Information_Technology",
+"Materials",
+"Real_State_Stocks_Update",
 "Utilities"
-"Utilities, excluding water"
-"Wireless telecommunications services"

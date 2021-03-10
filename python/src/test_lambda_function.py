@@ -7,16 +7,16 @@ class TestLambdaFunction(TestCase):
 
 
     # Test the portfolio builder using CSV input data for Technology only
-    def test_get_recommended_portfolio__csv_data__technology(self):
+    def test_get_recommended_portfolio__csv_data__ConsumerStaples(self):
         portfolio_actual = get_recommended_portfolio(
-            "Medium", 5000,
-            [ "Technology" ],
+            "Medium", 500000,
+            [ "Consumer_Staples" ],
             3,
             ticker_type="Industries", use_test_data=False, use_csv_input_data=True)
         print(portfolio_actual)
         self.assertIsNotNone(portfolio_actual)
         self.assertNotEqual("", portfolio_actual)
-        expected_portfolio_regex = r"Technology \([0-9.-]+\)"
+        expected_portfolio_regex = r".*Consumer_Staples.*"
         self.assertRegex(portfolio_actual, expected_portfolio_regex)
 
 
@@ -30,6 +30,7 @@ class TestLambdaFunction(TestCase):
         print(portfolio_actual)
         self.assertIsNotNone(portfolio_actual)
         self.assertNotEqual("", portfolio_actual)
+
 
     # Test the portfolio builder using CSV input data for all industries
     def test_get_recommended_portfolio__csv_data__allindustries__notenoughcapital(self):
