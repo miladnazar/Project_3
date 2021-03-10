@@ -28,7 +28,7 @@ class PortfolioBuilderProject3:
         return stock_info_container
 
 
-    def transform_portfolio_to_str(self, portfolio):
+    def transform_portfolio_to_str(self, portfolio, expected_performance=None):
 
         # Transform to string representation
         portfolio_str = ""
@@ -38,5 +38,8 @@ class PortfolioBuilderProject3:
                 portfolio_str += " - "
             portfolio_str += f"{stock_ticker} ({num_shares})"
             i += 1
+
+        if not (expected_performance is None):
+            portfolio_str += "  --" + expected_performance.get_string()
 
         return portfolio_str

@@ -245,7 +245,8 @@ def get_recommended_portfolio(risk, initial_investment, industries_preferences, 
     suggested_portfolio_str = "ERROR - Portfolio string not initialized"
     try:
         suggested_portfolio = stock_info_container.get_portfolio()
-        suggested_portfolio_str = portfolio_builder_project3.transform_portfolio_to_str(suggested_portfolio)
+        expected_performance = stock_info_container.get_expected_performance()
+        suggested_portfolio_str = portfolio_builder_project3.transform_portfolio_to_str(suggested_portfolio, expected_performance)
     except:
         return "EXCEPTION in: Generate string portfolio representation"
 

@@ -9,3 +9,13 @@ class EfficientFrontierPerformance:
 
     def get_performance_data(self):
         return self.__performance_data
+
+    def get_string(self):
+        return f"%s: %f0.2\%  %s: %f0.2\%  %s: %f0.2".format("Expected annual return", self.__performance_data["Expected annual return"],
+                                "Annual volatility", self.__performance_data["Annual volatility"],
+                                "Sharpe Ratio", self.__performance_data["Sharpe Ratio"])
+
+        # out_string = ""
+        # for key, value in self.__performance_data.items():
+        #     out_string += "  " + key + ": " + str(value)
+        # return out_string

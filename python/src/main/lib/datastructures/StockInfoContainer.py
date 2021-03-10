@@ -6,6 +6,7 @@ class StockInfoContainer:
     def __init__(self):
         self.__ticker_set = set()
         self.__portfolio = {}
+        self.__expected_performance = None
         self.__stock_price_history = pd.DataFrame()
 
 
@@ -23,6 +24,10 @@ class StockInfoContainer:
         for ticker in ticker_list:
             self.__register_ticker(ticker)
 
+    def add_portfolio_to_portfolio(self, portfolio):
+        for ticker in portfolio.keys():
+            self.add_stock_to_portfolio(ticker, portfolio[ticker])
+
     def add_stock_to_portfolio(self, ticker, num_shares):
         self.__register_ticker(ticker)
         self.__portfolio[ticker] = num_shares
@@ -31,6 +36,9 @@ class StockInfoContainer:
         for stock_ticker in self.get_all_tickers():
             self.__register_ticker(stock_ticker)
         self.__stock_price_history = stock_price_history
+
+    def set_portfolio_performance(self, expected_performance):
+        self.__expected_performance = expected_performance
 
 
     # --------------------------------------------------------------------------
@@ -46,6 +54,10 @@ class StockInfoContainer:
     def get_all_price_history(self):
         return self.__stock_price_history
 
+    def get_expected_performance(self):
+        return self.__expected_performance
+
+
     # --------------------------------------------------------------------------
     # Getters - Individual stock data
     # --------------------------------------------------------------------------
@@ -55,6 +67,7 @@ class StockInfoContainer:
 
     def get_stock_price_history(self, ticker):
         return self.__stock_price_history.get(ticker, None)
+
 
     # --------------------------------------------------------------------------
     # Helper functions

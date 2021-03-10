@@ -50,9 +50,10 @@ class EfficientFrontierPortfolioBuilderTool:
         allocation, leftover = da.lp_portfolio()
 
         # Store in StockInfoContainer
-        stock_info_container.set_portfolio(allocation)
+        stock_info_container.add_portfolio_to_portfolio(allocation)
+        stock_info_container.set_portfolio_performance(expected_performance)
 
-        return (stock_info_container, expected_performance)
+        return stock_info_container
 
 
     # --------------------------------------------------------------------------
