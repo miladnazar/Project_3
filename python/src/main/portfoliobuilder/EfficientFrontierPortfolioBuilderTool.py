@@ -19,6 +19,9 @@ class EfficientFrontierPortfolioBuilderTool:
     # generate_portfolio(starting_investment, pd.read_csv('Resources/Real_State_Stocks_Update.csv'))
     def compute_portfolio(self, customer_metrics, stock_info_container):
 
+        if customer_metrics.get_initial_investment() <= 0:
+            return ""
+
         # TODO Integrate all customer_metrics
 
         # def generate_portfolio(starting_investment, stock_price_history):

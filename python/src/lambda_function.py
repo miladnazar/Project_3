@@ -284,7 +284,7 @@ def filter_price_data(stock_info_container, price_history, industries_preference
             price_history.drop(ticker, axis=1, inplace=True)
 
     # Filter for requested industries
-    if industries_preferences is not None:
+    if industries_preferences is not None and len(industries_preferences) > 0:
         industries_preferences = set(industries_preferences)
         price_tickers = price_history.columns
         for ticker in price_tickers:
