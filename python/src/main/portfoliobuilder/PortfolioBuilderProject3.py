@@ -40,6 +40,6 @@ class PortfolioBuilderProject3:
             i += 1
 
         if not (expected_performance is None):
-            portfolio_str += "  --" + expected_performance.get_string()
+            portfolio_str += "  --  " + expected_performance.get_string()
 
         return portfolio_str
