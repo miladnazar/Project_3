@@ -215,6 +215,7 @@ def delegate(session_attributes, slots):
 
 
 def get_recommended_portfolio(risk, initial_investment, industries_preferences, investing_duration,
+                              contract_address,
                               ticker_type="Stocks",
                               use_test_data=False,
                               use_csv_input_data=False):
@@ -258,6 +259,13 @@ def get_recommended_portfolio(risk, initial_investment, industries_preferences, 
         suggested_portfolio_str = portfolio_builder_project3.transform_portfolio_to_str(suggested_portfolio, expected_performance)
     except:
         return "EXCEPTION in: Generate string portfolio representation"
+
+    # Log in smart contract
+    if not (contract_address == ""):
+        try:
+            register_portfolio_recommendation_in_smartcontract(suggested_portfolio_str, contract_address)
+        except:
+            return "EXCEPTION in: Log in smart contract"
 
     return suggested_portfolio_str
 
@@ -316,4 +324,4 @@ def parse_date_list(date_string_list):
 def register_portfolio_recommendation_in_smartcontract(recommended_portfolio, contract_address):
     smart_contract_tool = Project3SmartContractTool(contract_address)
     id = 0
-    smart_contract_tool.call(id, recommended_portfolio)
+    smart_contract_tool.call(id, contract_address, "portfolio_name", recommended_portfolio)
