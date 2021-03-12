@@ -32,7 +32,7 @@ def dispatch(intent_request):
     intent_name = intent_request["currentIntent"]["name"]
 
     # Dispatch to bot's intent handlers
-    if intent_name == "PortfolioBuilder_Project3":
+    if intent_name == "TailwindTradersPortfolioBuilder":
         return get_recommended_portfolio_intent_handler(intent_request)
 
     raise Exception("Intent with name " + intent_name + " not supported")
@@ -46,7 +46,7 @@ def get_recommended_portfolio_intent_handler(intent_request):
 
     risk = get_slots(intent_request)["risk"]
     initial_investment = get_slots(intent_request)["initial_investment"]
-    industries_preferences = get_slots(intent_request)["industries_preferences"]
+    industries_preferences = parse_industries_preferences( get_slots(intent_request)["industries_preferences"] )
     investing_duration = get_slots(intent_request)["investing_duration"]
     contract_address = get_slots(intent_request)["contract_address"]
 
@@ -87,7 +87,7 @@ def get_recommended_portfolio_intent_handler(intent_request):
     recommended_portfolio = get_recommended_portfolio(risk, initial_investment, industries_preferences, investing_duration, use_test_data=True)
 
     # Send recommended portfolio to smart contract
-    register_portfolio_recommendation_in_smartcontract(recommended_portfolio, contract_address)
+    # register_portfolio_recommendation_in_smartcontract(recommended_portfolio, contract_address)
 
     # Return a message with the initial recommendation based on the risk level.
     return close(
@@ -108,6 +108,10 @@ def get_slots(intent_request):
     Fetch all the slots and their values from the current intent.
     """
     return intent_request["currentIntent"]["slots"]
+
+
+def parse_industries_preferences(industries_preferences):
+    return list(industries_preferences.split(" "))
 
 
 def close(session_attributes, fulfillment_state, message):
@@ -132,6 +136,10 @@ def validate_data(investmentAmount):
     """
     Validates the data provided by the user.
     """
+
+    # TODO Ignore validation for testing
+    if (True):
+        return build_validation_result(True, None, None)
 
     # Handle default starting values - pass responsibility to the slots to retrieve values
 
@@ -304,14 +312,6 @@ def parse_date_list(date_string_list):
         except:
             date_list.append(None)
     return date_list
-
-
-
-
-
-
-
-
 
 def register_portfolio_recommendation_in_smartcontract(recommended_portfolio, contract_address):
     smart_contract_tool = Project3SmartContractTool(contract_address)

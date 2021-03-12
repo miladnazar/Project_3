@@ -28,10 +28,13 @@ class EfficientFrontierPortfolioBuilderTool:
         # Reset the date as the index
         # stock_price_history = stock_price_history.set_index(pd.DatetimeIndex(stock_price_history['Date'].values))
 
+        # Get the stock prices
         stock_price_history = stock_info_container.get_all_price_history()
+        latest_prices = get_latest_prices(stock_price_history)
 
         # Clean up data
         # stock_price_history.dropna(axis=1, inplace=True)
+
 
         # Optimize the portfolio
         # Calculate the expected annualized returns and the annualized sample covariance matrix of the daily asset returns
@@ -48,7 +51,6 @@ class EfficientFrontierPortfolioBuilderTool:
         expected_performance = EfficientFrontierPerformance(expected_performance_tuple[0], expected_performance_tuple[1], expected_performance_tuple[2])
 
         # Get the descret allocation of each share per stock
-        latest_prices = get_latest_prices(stock_price_history)
         da = DiscreteAllocation(cleaned_weights, latest_prices, total_portfolio_value=customer_metrics.get_initial_investment())
         allocation, leftover = da.lp_portfolio()
 
