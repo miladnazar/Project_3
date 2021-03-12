@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.5.4;
-pragma experimental ABIEncoderV2;
+pragma solidity ^0.5.5;
+//pragma experimental ABIEncoderV2;
 import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/release-v2.5.0/contracts/token/ERC721/ERC721Full.sol";
 import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/release-v2.5.0/contracts/drafts/Counters.sol";
 
@@ -25,7 +25,7 @@ contract Project3PortfolioBuilderSmartContract is ERC721Full {
     // Struct-based portfolio map functions
     // -------------------------------------------------------------------------
 
-    function registerPortfolio(bool generate_token_id, uint token_id,
+    function createPortfolio(bool generate_token_id, uint token_id,
             string memory portfolio_uri, address owner,
             string memory date, string memory name, string memory portfolio_string) public returns(uint) {
 
@@ -40,29 +40,23 @@ contract Project3PortfolioBuilderSmartContract is ERC721Full {
             token_id = token_ids.current();
         }
 
-        // _mint(owner,token_id);  // TODO
-        // _setTokenURI(token_id, portfolio_uri);  // TODO
+         _mint(owner,token_id);
+         _setTokenURI(token_id, portfolio_uri);
 
         portfolios[token_id] = Portfolio(date, name, portfolio_string);
 
-        // emit PortfolioEvent(token_id, portfolio_uri);
 
         return token_id;
     }
 
+    function registerPortfolioToIPFS(uint token_id, string memory portfolio_uri, string memory test_string) public returns(string memory) {
+        portfolios[token_id].portfolio_string = test_string;
+        emit PortfolioEvent(token_id,portfolio_uri);
+        return portfolios[token_id].portfolio_string;
+    }
+
     function getLastTokenID() public returns (uint) {
         return token_ids.current();
-    }
-
-    function testGetPortfoioString() public returns (string memory) {
-        return "AAPL: 45";
-    }
-
-    // experimental, for testing
-    function registerPortfolioTesting(uint token_id, string memory portfolio_uri, string memory tester) public returns(string memory) {
-        portfolios[token_id].portfolio_string = tester;
-        emit PortfolioEvent(token_id,portfolio_uri);
-        return portfolios[token_id].portfolio_string; // for testing
     }
 
     function getPortfolio(uint token_id) public returns(Portfolio memory) {
