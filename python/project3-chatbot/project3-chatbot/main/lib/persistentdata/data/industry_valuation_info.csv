@@ -1,0 +1,11 @@
+"Consumer Discretionary", False, True, False, True, True
+"Consumer Staples", False, True, False, True, True
+"Energy", False, True, False, True, False
+"Financials", False, True, False, False, True
+"Health Care", False, True, False, True, False
+"Industrials", False, True, False, True, False
+"Information Technology", False, True, False, False, True
+"Materials", False, True, False, False, True
+"Telecommunication Services", False, True, False, False, True
+"Utilities", False, True, False, False, False
+"Real Estate Investment Trust", True, True, True, True, False
